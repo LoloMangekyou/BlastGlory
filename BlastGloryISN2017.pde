@@ -1,3 +1,11 @@
+//////////GNU General Public License v3.0//////////  
+//////////ATENTION ce jeu a été réalisé par Loïc Rizzo/ Lucas Marcel/ Célia Chemineau //////////// 
+//////////OPEN SOURCE GAME ///////////
+
+/////// HAVE FUN ON BlastGlory !!!! //////
+
+
+
 ArrayList <Bullet> bullets = new ArrayList <Bullet> ();
 ArrayList <Enemy> enemies = new ArrayList <Enemy> ();
 ArrayList <Boss> boss = new ArrayList <Boss> ();
@@ -27,7 +35,7 @@ ArrayList <Boss> boss = new ArrayList <Boss> ();
     }
    
      
-          void draw() {
+    void draw() {
             
                 if(!menu){                          //menu
                   background(100);
@@ -53,11 +61,11 @@ ArrayList <Boss> boss = new ArrayList <Boss> ();
                 
                 
                 
-        if(menu){
-                 
-                 if (frameCount%es==0) {        //cadence d'apparition des énemies 
-                      enemies.add(new Enemy());
-                  }
+         if(menu){
+         
+                   if (frameCount%es==0) {        //cadence d'apparition des énemies 
+                        enemies.add(new Enemy());
+                   }
                    
                    hp=constrain(hp,-2,3);       //pour empêcher que la regen donne plus que la valeur initial d'hp                           
                    background(0);
@@ -72,196 +80,192 @@ ArrayList <Boss> boss = new ArrayList <Boss> ();
                    PVector mouse = new PVector(mouseX, mouseY);  
                    fill(255);
                    ellipse(mouse.x, mouse.y, 5, 5);     //curseur 
-                     
-                   if (frameCount%cdt==0 && mousePressed) {
-                      PVector dir = PVector.sub(mouse, player); 
-                      dir.normalize();
-                      dir.mult(maxSpeed*3);
-                      Bullet b = new Bullet(player, dir);   //vecteur trajectoire des bullets
-                      bullets.add(b);                       //créer un bullet
-                    }
-                      
-                      
-            for (int i = enemies.size ()-1; i>=0; i--) {
-            Enemy b = (Enemy) enemies.get(i);               // créer un énemie 
-            b.move();                                       // mouvement des énemies 
-                  
-     
-              for(Bullet blt : bullets) {                                        // check enemy to bullet collisions  /  Pour chaque Bullet
-                if(dist(blt.x,blt.y,b.enemiPosition.x,b.enemiPosition.y) <20){   //if the distance between the bullet and enemy is less than the enemy's width
-                  enemies.remove(b);                                             //remove the enemy
-                  kill=kill+1;
-     
-                  }
-                 } 
-          
-
-                  if(dist(player.x,player.y,b.enemiPosition.x,b.enemiPosition.y) < 20){    //check enemy to player collision
-                    enemies.remove(b);                                                     //remove the enemy
-                    hp = hp+(-1*gm);                             //modifie et gangne un hp au lieu d'en perdre lors d'une colision (triche)                          
-                              
-                      if(hp<0){          //après la mort
-                        noLoop();        //stop le jeu
-                        textSize(70);
-                        fill(160,60,215);
-                        text("Game Over !!!", width/2-250, 400); 
-                        fill(160,60,215);
-                        text("RePlay press 'O'", width/2-200, 500);
-                      } 
-                  }            
-           
-            } 
-           
- 
-              for (int i = boss.size ()-1; i>=0; i--) {   
-                   Boss b = (Boss) boss.get(i);           // créer un boss 
-                   b.move();                              // mouvement du boss 
-            
-            
-
-            for(Bullet blt : bullets) {    //check enemy to bullet collisions  / Pour chaque bullet         
-                  if(dist(blt.x,blt.y,b.bossPosition.x,b.bossPosition.y) <50){    //if the distance between the bullet and enemy is less than the enemy's width
                    
-                    pvb=pvb+1;  // à chaque coup prend 1 dégat (0 à 100 et meurt à 100)
-                    c=c+2;      // couleur change 
-                    //println(pvb); 
-                        if(pvb>100){  
-                        boss.remove(b); //remove boss
-                        pvb=0;    // remet ls point de vie initial
-                        c=0;      // remet la couleur initial   
-                        bkill=bkill+1;  //permet de faire spawn le prochain boss 
+                         if (frameCount%cdt==0 && mousePressed) {
+                            PVector dir = PVector.sub(mouse, player); 
+                            dir.normalize();
+                            dir.mult(maxSpeed*3);
+                            Bullet b = new Bullet(player, dir);   //vecteur trajectoire des bullets
+                            bullets.add(b);                       //créer un bullet
+                          }
                         
-                       }
-               //println(bkill);
-                       
-                  }
-            } 
-          
-             
-              if(dist(player.x,player.y,b.bossPosition.x,b.bossPosition.y) < 50){  //check enemy to player collision
-                enemies.remove(b);  //remove énemie 
-                hp = hp+(-1*gm);    // player perd un point de vie / sauf en godmod
-                          
-              if(hp<0){   //on meurt
-                noLoop();      //stop le jeu
-                textSize(70);
-                fill(160,60,215);
-                text("Game Over !!!", width/2-250, 400); 
-                fill(160,60,215);
-                text("RePlay press 'O'", width/2-200, 500);
+                        
+              for (int i = enemies.size ()-1; i>=0; i--) {
+              Enemy b = (Enemy) enemies.get(i);               // créer un énemie 
+              b.move();                                       // mouvement des énnemies
+                    
+       
+                    for(Bullet blt : bullets) {                                        // check enemy to bullet collisions  /  Pour chaque Bullet
+                            if(dist(blt.x,blt.y,b.enemiPosition.x,b.enemiPosition.y) <20){   //if the distance between the bullet and enemy is less than the enemy's width
+                              enemies.remove(b);                                             //remove the enemy
+                              kill=kill+1;           
+                             }
+                      } 
+            
+
+                    if(dist(player.x,player.y,b.enemiPosition.x,b.enemiPosition.y) < 20){    //check enemy to player collision
+                      enemies.remove(b);                                                     //remove the enemy
+                      hp = hp+(-1*gm);                             //modifie et gangne un hp au lieu d'en perdre lors d'une colision (triche/godmode)                          
+                                
+                            if(hp<0){          //après la mort 
+                              noLoop();        //stop le jeu
+                              textSize(70);
+                              fill(160,60,215);
+                              text("Game Over !!!", width/2-250, 400); 
+                              fill(160,60,215);
+                              text("RePlay press 'O'", width/2-200, 500);
+                            } 
+                    }            
               } 
-              }            
-           }
-           
-           
-           
-            if(gm==-1){                
-                      textSize(20);
-                      fill(255);
-                      text("GodMode", width-100, 30);
-                      fill(0,255,0);
-                      text("ON", width-50, 46);
+             
+   
+                for (int i = boss.size ()-1; i>=0; i--) {   
+                         Boss b = (Boss) boss.get(i);           // créer un boss 
+                         b.move();                              // mouvement du boss 
+                            
+                      for(Bullet blt : bullets) {       //check enemy to bullet collisions  / Pour chaque bullet         
+                                if(dist(blt.x,blt.y,b.bossPosition.x,b.bossPosition.y) <50){    //if the distance between the bullet and enemy is less than the enemy's width
+                                 
+                                  pvb=pvb+1;  // à chaque coup prend 1 dégat (0 à 100 et meurt à 100)
+                                  c=c+2;      // couleur change 
+                                  //println(pvb); 
+                                                if(pvb>100){  
+                                                boss.remove(b); //remove boss
+                                                pvb=0;    // remet ls point de vie initial
+                                                c=0;      // remet la couleur initial   
+                                                bkill=bkill+1;  //permet de faire spawn le prochain boss 
+                                                
+                                               }
+                                  //println(bkill);
+                                     
+                                }
+                      } 
+                    
+                   
+                        if(dist(player.x,player.y,b.bossPosition.x,b.bossPosition.y) < 50){  //check enemy to player collision
+                          enemies.remove(b);  //remove énemie 
+                          hp = hp+(-1*gm);    // player perd un point de vie / sauf en godmod
+                                          
+                              if(hp<0){   //on meurt
+                                noLoop();      //stop le jeu
+                                textSize(70);
+                                fill(160,60,215);
+                                text("Game Over !!!", width/2-250, 400); 
+                                fill(160,60,215);
+                                text("RePlay press 'O'", width/2-200, 500);
+                              } 
+                        }            
+               }
+                 
+             
+             
+              if(gm==-1){                
+                        textSize(20);
+                        fill(255);
+                        text("GodMode", width-100, 30);
+                        fill(0,255,0);
+                        text("ON", width-50, 46);
+                      }
                       
-                    }
-                      if(gm==1){
-                      textSize(20);
-                      fill(255);
-                      text("GodMode", width-100, 30);
-                      fill(255,0,0);
-                      text("OFF", width-50, 46);
-                      }                               //GodMode
-           
-        
-    // passage de wave               
-           
-                    if(kill<10){
-                      textSize(30);               
-                      fill(0,0,255);
-                      text("Wave 1", width/2, 100);
-                     
-                    }
-                    if(kill>10 && clean==0){  for (int i = enemies.size ()-1; i>=0; i--) {   
-                     Enemy b = (Enemy) enemies.get(i);
-                     enemies.remove(b);
-                     
-                   }  clean=1;
-                    }
-                    
-                    
-                      if(20>kill && kill>10){
-                      textSize(30);               
-                      fill(0,0,255);
-                      text("Wave 2", width/2, 100);
-                      dx=2.8;
-                      es=20;
-                      cdt=6;
-                    }
-                      if(kill>20 && clean==1){  for (int i = enemies.size ()-1; i>=0; i--) {
-                     Enemy b = (Enemy) enemies.get(i);
-                     enemies.remove(b);
-                     
-                   }  clean=2;
-                      }
-                    
-                    
-                     if(30>kill && kill>20){
-                      textSize(30);               
-                      fill(0,0,255);
-                      text("Wave 3", width/2, 100);
-                      dx=2.6;
-                      es=15;
-                      cdt=7;
-                    }
-                      if(kill>30 && clean==2){  for (int i = enemies.size ()-1; i>=0; i--) {
-                     Enemy b = (Enemy) enemies.get(i);
-                     enemies.remove(b);
-                     
-                   }  clean=3;
-                      }
-                    
-                    
-                     if(40>kill && kill>30){
-                      textSize(30);               
-                      fill(0,0,255);
-                      text("Wave 4", width/2, 100);
-                      dx=2.4;
-                      es=10;
-                      cdt=8;
-                    }
-                      if(kill>40 && clean==3){  for (int i = enemies.size ()-1; i>=0; i--) {
-                     Enemy b = (Enemy) enemies.get(i);
-                     enemies.remove(b);
-                     
-                   }  clean=4;
-                      }
-                    
-                    
-                      if((bkill==0 || bkill==1) && kill>40){
-                      textSize(30);               
-                      fill(0,0,255);
-                      text("Wave 5", width/2, 100);
-                      if(bkill==0){                  
-                    boss.add(new Boss());
-                    bkill=1;
-                  }
-                      dx=2.2;
-                      es=5;
-                      cdt=9;
-                    }
-                      if((kill>50 && clean==4) && bkill==2){  for (int i = enemies.size ()-1; i>=0; i--) {
-                     Enemy b = (Enemy) enemies.get(i);
-                     enemies.remove(b);
-                     
-                   }  clean=5;
-                      }
-                    
-                    
-                     if((bkill==2 || bkill==3) && kill>60){
-                       if(bkill==2){                  
-                    boss.add(new Boss());
-                    bkill=3;
-                  }
+              if(gm==1){
+              textSize(20);
+              fill(255);
+              text("GodMode", width-100, 30);
+              fill(255,0,0);
+              text("OFF", width-50, 46);
+              }                               //GodMode
+             
+          
+              // passage de wave               
+             
+                      if(kill<10){
+                        textSize(30);               
+                        fill(0,0,255);
+                        text("Wave 1", width/2, 100);
                        
+                      }                      
+                      if(kill>10 && clean==0){  
+                            for (int i = enemies.size ()-1; i>=0; i--) {   
+                               Enemy b = (Enemy) enemies.get(i);
+                               enemies.remove(b); 
+                             }  
+                       clean=1;
+                      }
+                      
+                      
+                      if(20>kill && kill>10){
+                        textSize(30);               
+                        fill(0,0,255);
+                        text("Wave 2", width/2, 100);
+                        dx=2.8;
+                        es=20;
+                        cdt=6;
+                      }
+                      if(kill>20 && clean==1){ 
+                            for (int i = enemies.size ()-1; i>=0; i--) {
+                               Enemy b = (Enemy) enemies.get(i);
+                               enemies.remove(b);
+                              }
+                        clean=2;
+                      }
+                      
+                      if(30>kill && kill>20){
+                        textSize(30);               
+                        fill(0,0,255);
+                        text("Wave 3", width/2, 100);
+                        dx=2.6;
+                        es=15;
+                        cdt=7;
+                      }
+                      if(kill>30 && clean==2){  
+                            for (int i = enemies.size ()-1; i>=0; i--) {
+                               Enemy b = (Enemy) enemies.get(i);
+                               enemies.remove(b);
+                              } 
+                         clean=3;
+                        }
+                         
+                      if(40>kill && kill>30){
+                        textSize(30);               
+                        fill(0,0,255);
+                        text("Wave 4", width/2, 100);
+                        dx=2.4;
+                        es=10;
+                        cdt=8;
+                      }
+                      if(kill>40 && clean==3){  
+                            for (int i = enemies.size ()-1; i>=0; i--) {
+                               Enemy b = (Enemy) enemies.get(i);
+                               enemies.remove(b);
+                            }  
+                        clean=4;
+                      }
+                     
+                      if((bkill==0 || bkill==1) && kill>40){
+                         textSize(30);               
+                         fill(0,0,255);
+                         text("Wave 5", width/2, 100);
+                           if(bkill==0){                  
+                               boss.add(new Boss());
+                               bkill=1;
+                           }
+                       dx=2.2;
+                       es=5;
+                       cdt=9;
+                     }                     
+                     if((kill>50 && clean==4) && bkill==2){  
+                           for (int i = enemies.size ()-1; i>=0; i--) {
+                              Enemy b = (Enemy) enemies.get(i);
+                              enemies.remove(b);     
+                           } 
+                       clean=5;
+                     }
+                                         
+                    if((bkill==2 || bkill==3) && kill>60){
+                         if(bkill==2){                  
+                           boss.add(new Boss());
+                           bkill=3;
+                         }     
                       textSize(30);               
                       fill(0,0,255);
                       text("Wave 6", width/2, 100);
@@ -269,110 +273,104 @@ ArrayList <Boss> boss = new ArrayList <Boss> ();
                       es=5;
                       cdt=7;
                     }
-                      if(bkill==4 && (kill>70 && clean==5)){  for (int i = enemies.size ()-1; i>=0; i--) {
-                     Enemy b = (Enemy) enemies.get(i);
-                     enemies.remove(b);
-                     
-                   }  clean=6;
-                      }
-                      
-                      
-                             if((bkill==4 || bkill==5 || bkill==6 || bkill==7) && kill>70){
-                       if(bkill==4){                  
-                    boss.add(new Boss());
-                    bkill=5;
-                  }
-                       if(bkill==6){                  
-                    boss.add(new Boss());
-                    bkill=7;
-                  }
-                       
+                    if(bkill==4 && (kill>70 && clean==5)){  
+                          for (int i = enemies.size ()-1; i>=0; i--) {
+                             Enemy b = (Enemy) enemies.get(i);
+                             enemies.remove(b);           
+                          }  
+                      clean=6;
+                    }
+                        
+                    if((bkill==4 || bkill==5 || bkill==6 || bkill==7) && kill>70){
+                         if(bkill==4){                  
+                           boss.add(new Boss());
+                           bkill=5;
+                         }
+                         if(bkill==6){                  
+                         boss.add(new Boss());
+                          bkill=7;
+                         }
+                         
                       textSize(30);               
                       fill(0,0,255);
                       text("Wave 7", width/2, 100);
                       dx=2;
                       es=5;
                       cdt=5;
-                    }
-                      if(bkill==8 && (kill>80 && clean==6)){  for (int i = enemies.size ()-1; i>=0; i--) {
-                     Enemy b = (Enemy) enemies.get(i);
-                     enemies.remove(b);
-                     
-                   }  clean=7;
-                      }
-                      
-                      
-                      
-                                  if((bkill==8 || bkill==9 || bkill==10 || bkill==11 || bkill==12 || bkill==13) && kill>80){
-                       if(bkill==8){                  
-                    boss.add(new Boss());
-                    bkill=9;
-                  }
-                       if(bkill==10){                  
-                    boss.add(new Boss());
-                    bkill=11;
-                  }
-                       if(bkill==12){                  
-                    boss.add(new Boss());
-                    bkill=13;
-                  }
-                       
-                      textSize(30);               
-                      fill(0,0,255);
-                      text("Wave 8", width/2, 100);
-                      dx=2;
-                      es=5;
-                      cdt=4;
-                    }
-                      if(bkill==14 && (kill>80 && clean==7)){  for (int i = enemies.size ()-1; i>=0; i--) {
-                     Enemy b = (Enemy) enemies.get(i);
-                     enemies.remove(b);
-                     
-                   }  clean=8;
-                      }
-                    
-                    
-                     if(bkill==14 && kill>100){
-                      textSize(120);               
-                      fill(random(255));
-                      text("Congratulation !!!!", 80, 400);
-                      dx=100;
-                      es=50000;
-                      cdt=5;
-                    }
-                    
-                    
-               
+                   }
+                   if(bkill==8 && (kill>80 && clean==6)){  
+                          for (int i = enemies.size ()-1; i>=0; i--) {
+                             Enemy b = (Enemy) enemies.get(i);
+                             enemies.remove(b);          
+                          }  
+                     clean=7;
+                   }
                         
-                 textSize(30);                 //affiche le scrore 
-                 fill(100,100,100);
-                 text(kill, width-100, 80);
-   
-                 textSize(40);                 //affiche les hp
-                 fill(100,255,0);
-                 text(hp, width/10, 100);
-                   
-               if (frameCount%300==0) {        //regen
-                  hp=hp+1;
-                }
-                   
-      
-               for (Enemy b : enemies) {       //affichage skin   
-                   b.display();
-                 }  
-                 
-                 for (Boss b : boss) {       //affichage skin   
-                   b.display();
-                 }   
-                                              
-               for (Bullet b : bullets) {      //affichage des Bullets
-                   b.update();
-                   b.display();
+                        
+                   if((bkill==8 || bkill==9 || bkill==10 || bkill==11 || bkill==12 || bkill==13) && kill>80){
+                          if(bkill==8){                  
+                          boss.add(new Boss());
+                          bkill=9;
+                          }
+                          if(bkill==10){                  
+                          boss.add(new Boss());
+                          bkill=11;
+                          }
+                          if(bkill==12){                  
+                          boss.add(new Boss());
+                          bkill=13;
+                          }                        
+                     textSize(30);               
+                     fill(0,0,255);
+                     text("Wave 8", width/2, 100);
+                     dx=2;
+                     es=5;
+                     cdt=4;
+                  }
+                  if(bkill==14 && (kill>80 && clean==7)){  
+                        for (int i = enemies.size ()-1; i>=0; i--) {
+                           Enemy b = (Enemy) enemies.get(i);
+                           enemies.remove(b);     
+                        }  
+                    clean=8;
+                  }
+                         
+                  if(bkill==14 && kill>100){
+                        textSize(120);               
+                        fill(random(255));
+                        text("Congratulation !!!!", 80, 400);
+                        dx=100;
+                        es=50000;
+                        cdt=5;
+                  }
+                         
+                          
+                   textSize(30);                 //affiche le scrore 
+                   fill(100,100,100);
+                   text(kill, width-100, 80);
+     
+                   textSize(40);                 //affiche les hp
+                   fill(100,255,0);
+                   text(hp, width/10, 100);
+                     
+                 if (frameCount%300==0) {        //regen
+                    hp=hp+1;
+                  }
+                     
+        
+                 for (Enemy b : enemies) {       //affichage skin   
+                     b.display();
+                  }                  
+                 for (Boss b : boss) {          //affichage skin   
+                     b.display();
+                  }                                  
+                 for (Bullet b : bullets) {     //affichage des Bullets
+                     b.update();
+                     b.display();
                  }
-       }
-          }
+         }
+  }
   
-    
     
     
            class Enemy {                     // l'objet ennemi
@@ -380,9 +378,9 @@ ArrayList <Boss> boss = new ArrayList <Boss> ();
                 PVector enemiPosition;       // vecteur qui définisse l'ennemi 
                 PVector enemySpeed; 
  
-                      Enemy() {
-                       enemiPosition = new PVector(width/2*(int)random(0,3),height*(int)random(0,2));        //spawn de l'ennemi 
-                      }
+                  Enemy() {
+                   enemiPosition = new PVector(width/2*(int)random(0,3),height*(int)random(0,2));        //spawn de l'ennemi 
+                  }
                          void move() {
                                enemySpeed = PVector.sub(player, enemiPosition);              //mvt de l'ennemi 
                                enemySpeed.normalize();
@@ -397,17 +395,17 @@ ArrayList <Boss> boss = new ArrayList <Boss> ();
                           }
                     
                     
-                 }  
+            }  
                  
                  
-                   class Boss {                     // l'objet ennemi
+           class Boss {                     // l'objet ennemi
 
                 PVector bossPosition;       // vecteur qui définisse l'ennemi 
                 PVector bossSpeed; 
  
-                      Boss() {
-                       bossPosition = new PVector(width/2,height/2);        //spawn de l'ennemi 
-                      }
+                  Boss() {
+                   bossPosition = new PVector(width/2,height/2);        //spawn de l'ennemi 
+                  }
                          void move() {
                                bossSpeed = PVector.sub(player, bossPosition);              //mvt de l'ennemi 
                                bossSpeed.normalize();
@@ -422,32 +420,26 @@ ArrayList <Boss> boss = new ArrayList <Boss> ();
                           }
                     
                     
-                 }
+            }
                  
-                 
-                 
-                 
-                 
-                 
-    
-
-                class Bullet extends PVector {                 //objet tir 
+     
+            class Bullet extends PVector {                 //objet tir 
                       PVector vel;
                        
                        Bullet(PVector loc, PVector vel) {
                          super(loc.x, loc.y);
                          this.vel = vel.get();
-                       }
+                        }
                        
                         void update() {
                           add(vel);
                         }
                        
-                        void display() {                                            //skin
+                        void display() {                   //skin
                           fill(255, 255, 255);
                           ellipse(x, y, 3, 3);
                         }
-                  }
+           }
                   
      
    void keyPressed() {                          //mvt joueur 
@@ -481,6 +473,7 @@ ArrayList <Boss> boss = new ArrayList <Boss> ();
                       loop();      //pour rejouer
                }      
           }
+          
           if(keyPressed){
                if(key=='p'){ 
                  
@@ -496,63 +489,58 @@ ArrayList <Boss> boss = new ArrayList <Boss> ();
                       noLoop();      //pour pause
                }      
           }
-            if(keyPressed){
+          if(keyPressed){
                if(key=='r'){
-                 
-                     
+                       
                       loop();      //pour reprendre
                }      
           }
           
-               if(keyPressed){
+          if(keyPressed){
                if(key=='u'){
-                 
-                     
+                      
                       menu = true;
                }      
           }
           
           
           
-                    if(keyPressed){
+          if(keyPressed){
                if(key=='g'){
-                 
-                     
-                      gm = gm*-1;
-                     
+                  
+                      gm = gm*-1;                   
                }      
           }
           
-                  if(keyPressed){
-               if(key=='h'){
-                 for (int i = enemies.size ()-1; i>=0; i--) {
-                     Enemy b = (Enemy) enemies.get(i);
-                     enemies.remove(b);
-                   }                     //kill all enemies
+          if(keyPressed){
+                if(key=='h'){
+                     for (int i = enemies.size ()-1; i>=0; i--) {
+                         Enemy b = (Enemy) enemies.get(i);
+                         enemies.remove(b);
+                       }                     //kill all enemies
                      for (int i = boss.size ()-1; i>=0; i--) {
-                     Boss b = (Boss) boss.get(i);
-                     boss.remove(b);
-                   }
-                      kill=0;                     //remise à 0 du score 
-                      hp=3;                       //redonner les hp initial
-                      es=25;
-                      dx=3;
-                      cdt=5;
-                      c=0;
-                      bkill=0;
-                      pvb =0;
-                      clean=0;
-                      gm = 1;
-                      player = new PVector(width/2, height/2);      //replacer le joueur au milieu
-                 
-                      loop();
-                      menu = false;
+                        Boss b = (Boss) boss.get(i);
+                        boss.remove(b);
+                     }                      //kill all boss
+                        kill=0;                       //remise à 0 du score 
+                        hp=3;                         //redonner les hp initial
+                        es=25;
+                        dx=3;
+                        cdt=5;
+                        c=0;
+                        bkill=0;
+                        pvb =0;
+                        clean=0;
+                        gm = 1;
+                        player = new PVector(width/2, height/2);      //replacer le joueur au milieu
+                        loop();
+                        menu = false;
                }      
           }
-    }
+  }
      
     void keyReleased() {
-      if (key == 'z' || key == 's')    { playerSpeed.y = 0; }
+      if (key == 'z' || key == 's') { playerSpeed.y = 0; }
       if (key == 'q' || key == 'd') { playerSpeed.x = 0; }
     }
     
